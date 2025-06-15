@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 void main() {
   runApp(const MainApp());
+}
+
+void e_string() async {
+  late AudioPlayer player = AudioPlayer();
+  await player.setSource(AssetSource("e-string.mp3"));
+  player.resume();
+  print("E");
+  
 }
 
 class MainApp extends StatelessWidget {
@@ -9,12 +18,22 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return  MaterialApp(
+      title: "Guitar Tuner Suite",
       home: Scaffold(
+        appBar: AppBar(
+          title: Text("Guitar Tuner Suite"),
+        ),
         body: Center(
-          child: Text('Hello World!'),
+          child: TextButton(
+            style: const ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll<Color>(Colors.green),
+            ),
+            child: const Text("E"),
+            onPressed: e_string),
         ),
       ),
     );
   }
 }
+
