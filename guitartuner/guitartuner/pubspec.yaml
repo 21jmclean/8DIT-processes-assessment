@@ -20,3 +20,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/e-string.mp3
+    - assets/a-string.mp3
+    - assets/d-string.mp3
+    - assets/g-string.mp3
+    - assets/b-string.mp3
+    - assets/e2-string.mp3

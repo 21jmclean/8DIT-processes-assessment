@@ -9,8 +9,11 @@ void e_string() async {
   late AudioPlayer player = AudioPlayer();
   await player.setSource(AssetSource("e-string.mp3"));
   player.resume();
-  print("E");
-  
+}
+
+void a_string() async {
+  late AudioPlayer player = AudioPlayer();
+  await player. setSource(AssetSource)
 }
 
 class MainApp extends StatelessWidget {
@@ -31,6 +34,13 @@ class MainApp extends StatelessWidget {
             ),
             child: const Text("E"),
             onPressed: e_string),
+          child: TextButton(
+            style: const ButtonStyle(
+              backgroundColor: WidgetStatePropertyAll<Color>(Colors.green),
+            ),
+            child: const Text("A"),
+            onPressed: a_string),
+          )
         ),
       ),
     );
