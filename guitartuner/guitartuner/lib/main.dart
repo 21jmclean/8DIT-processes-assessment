@@ -48,57 +48,64 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.black,
+          fixedSize: Size(100, 100),
+          
+        )
+      ) 
+      ),
       title: "Guitar Tuner Suite",
       home: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text("Guitar Tuner Suite"),
         ),
         
-        body: Column(
-          children: [TextButton(
-            style: const ButtonStyle(
-            backgroundColor: WidgetStatePropertyAll<Color>(Colors.green),
-            ),
-            child: const Text("E"),
-              onPressed: e_string),
-              
-          TextButton(
-            style: const ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll<Color>(Colors.green),
-            ),
-            child: const Text("A"),
-            onPressed: a_string),
+        body: 
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 20,
+          children: [
+            Column(
+              spacing: 20,
+              children: [
+                TextButton(
+                child: const Text("E"),
+                  onPressed: e_string),
+                  
+                TextButton(
+                  child: const Text("A"),
+                  onPressed: a_string),
 
-          TextButton(
-            style: const ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll<Color>(Colors.green),
+                TextButton(
+                child: const Text("D"),
+                onPressed: d_string),
+              ],
             ),
-          child: const Text("D"),
-          onPressed: d_string),
+            Column(
+              spacing: 20,
+              children: [
+                TextButton(
+                  child: const Text("G"),
+                  onPressed: g_string),
 
-          TextButton(
-            style: const ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll<Color>(Colors.green),
-            ),
-            child: const Text("G"),
-            onPressed: g_string),
+                TextButton(
+                  child: const Text("B"),
+                  onPressed: b_string),
 
-          TextButton(
-            style: const ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll<Color>(Colors.green),
-            ),
-            child: const Text("B"),
-            onPressed: b_string),
-
-          TextButton(
-            style: const ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll<Color>(Colors.green),
-            ),
-            child: const Text("E"),
-            onPressed: e2_string)],
+                TextButton(
+                  child: const Text("E"),
+                  onPressed: e2_string)],
+                )
+              ]
+            )
           )
-        ),
-      );
+        );
   }
 }
 
