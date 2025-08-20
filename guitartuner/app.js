@@ -2,6 +2,9 @@ import { PitchDetector } from "https://esm.sh/pitchy@4?";
 var note = "?";
 var accuracy = 0;
 
+
+
+// This function is used for turning on the pitch detection. It uses the pitchy library
 async function  startPitchDetection() {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true})
     const audio = new (window.AudioContext || window .webkitAudioContext)();
@@ -59,3 +62,20 @@ async function  startPitchDetection() {
     detectPitch();
 }
 startPitchDetection()
+
+window.addEventListener("load", () => {
+    const container = document.querySelector(".tuning_metre")
+    const indicator = document.querySelector("#indicator")
+
+    function moveIndicator(barIndex) {
+        let barWidth = container.offsetWidth/5
+        let indicatorWidth = indicator.offsetWidth;
+        
+        //The position is calculated by this:
+        let leftPosition = barIndex*barWidth + barWidth/2 - indicatorWidth/2
+        // This centres the line in the middle of the bar.
+
+        indicator.style.left = `${leftPosition}px`;
+    }
+    setTimeout(() => moveIndicator(2), 100);
+});
