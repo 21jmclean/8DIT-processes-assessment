@@ -4,6 +4,12 @@ var accuracy = 0;
 
 const container = document.querySelector(".tuning_metre")
 const indicator = document.querySelector("#indicator")
+let low_e_frequencey = 82;
+let a_frequencey = 110;
+let d_frequencey = 147;
+let g_frequencey = 196;
+let b_frequencey = 247;
+let high_e_frequencey = 330;
 
 function moveIndicator(barIndex) {
     let barWidth = container.offsetWidth/5
@@ -65,32 +71,33 @@ async function  startPitchDetection() {
             if (clarity > 0.6 && pitch > 0) {
                 if (pitch > 78 && pitch < 86) {
                     note = "E"
-                    accuracy = pitch-82
+                    accuracy = pitch-low_e_frequencey
+                    // The accuracy variable indicates how close to the target note the detected pitch is. The closer to 0, then the better tuned.
                 };
 
                 if (pitch > 106 && pitch < 114) {
                     note = "A"
-                    accuracy = pitch-110
+                    accuracy = pitch-a_frequencey
                 };
 
                 if (pitch > 143 && pitch < 151) {
                     note = "D"
-                    accuracy = pitch-147
+                    accuracy = pitch-d_frequencey
                 };
 
                 if (pitch > 192 && pitch < 200) {
                     note = "G"
-                    accuracy = pitch-196
+                    accuracy = pitch-g_frequencey
                 };
 
                 if (pitch > 243 && pitch < 251) {
                     note = "B"
-                    accuracy = pitch-247
+                    accuracy = pitch-b_frequencey
                 };
 
-                if (pitch > 328 && pitch < 332) {
+                if (pitch > 326 && pitch < 334) {
                     note = "E"
-                    accuracy = pitch-330
+                    accuracy = pitch-high_e_frequencey
                 };
         }
 
