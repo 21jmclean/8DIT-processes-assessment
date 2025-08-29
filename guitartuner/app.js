@@ -52,6 +52,8 @@ async function  startPitchDetection() {
 
 
     function detectPitch() {
+        let last_update = 0;
+        
         analyser.getFloatTimeDomainData(buffer)
         let [pitch, clarity] = detector.findPitch(buffer, audio.sampleRate);
 
@@ -60,33 +62,33 @@ async function  startPitchDetection() {
         if (selected_value == 1) {
             document.getElementById("note_selector").hidden = false
         } else {
-            if (clarity > 0.4 && pitch > 0) {
-                if (pitch > 81.5 && pitch < 82.5) {
+            if (clarity > 0.6 && pitch > 0) {
+                if (pitch > 78 && pitch < 86) {
                     note = "E"
                     accuracy = pitch-82
                 };
 
-                if (pitch > 109.5 && pitch < 110.5) {
+                if (pitch > 106 && pitch < 114) {
                     note = "A"
                     accuracy = pitch-110
                 };
 
-                if (pitch > 146.5 && pitch < 147.5) {
+                if (pitch > 143 && pitch < 151) {
                     note = "D"
                     accuracy = pitch-147
                 };
 
-                if (pitch > 195.5 && pitch < 196.5) {
+                if (pitch > 192 && pitch < 200) {
                     note = "G"
                     accuracy = pitch-196
                 };
 
-                if (pitch > 246.5 && pitch < 247.5) {
+                if (pitch > 243 && pitch < 251) {
                     note = "B"
                     accuracy = pitch-247
                 };
 
-                if (pitch > 329.5 && pitch < 330.5) {
+                if (pitch > 328 && pitch < 332) {
                     note = "E"
                     accuracy = pitch-330
                 };
@@ -96,29 +98,39 @@ async function  startPitchDetection() {
             document.getElementById("note").textContent = note;
             document.getElementById("accuracy").textContent = accuracy;
 
-            if (accuracy <= 0.5 && accuracy >= 0.3) {
-                moveIndicator(0)
-            };
-
-            if (accuracy < 0.3 && accuracy > 0.1) {
-                moveIndicator(1)
-            };
-
-            if (accuracy <= 0.1 && accuracy >= -0.1) {
-                moveIndicator(2)
-            };
-
-            if (accuracy < -0.1 && accuracy > -0.3) {
-                moveIndicator(3)
-            };
-
-            if (accuracy <= -0.3 && accuracy >= -0.5) {
+            if (accuracy <= 1 && accuracy >= 0.5) {
                 moveIndicator(4)
             };
 
+            if (accuracy < 0.5 && accuracy > 0.2) {
+                moveIndicator(3)
+            };
+
+            if (accuracy <= 0.2 && accuracy >= -0.2) {
+                moveIndicator(2)
+            };
+
+            if (accuracy < -0.2 && accuracy > -0.5) {
+                moveIndicator(1)
+            };
+
+            if (accuracy <= -0.5 && accuracy >= -1) {
+                moveIndicator(0)
+            };
+
+            if (accuracy > 1) {
+                moveIndicator(4)
+            };
+
+            if (accuracy < -1) {
+                moveIndicator(0)
+            };
+
         }
-        
-        setTimeout(requestAnimationFrame(detectPitch), 200)
+        if (Date.now() - last_update > 200) {
+            requestAnimationFrame(detectPitch)
+            last_update = Date.now()
+        }
     }
     detectPitch();
 }
