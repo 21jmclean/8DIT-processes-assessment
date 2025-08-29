@@ -1,12 +1,45 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
 body {
     display: flex;
+    flex-direction: column;
+    background-color: #ECEFF1;
+}
+
+ul {
+    margin: 0 auto;
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+    background-color: #263238;
+    border-bottom: 8px solid #333333;
+    box-shadow: black;
+}
+
+li a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #CFD8DC;
+    background-color: #263238;
+}
+
+li a:hover {
+    color: #263238;
+    background-color: #80CBC4;
 
 }
 
 .container {
+    background: #CFD8DC;
     display: flex;
-    font-family: Arial, Helvetica, sans-serif;
-    border: solid 2px black;
+    border: solid 2px #263238;
     border-radius: 10px;
     width: 40vw;
     text-align: center;
@@ -14,6 +47,13 @@ body {
     margin-left: auto;
     margin-right: auto;
     flex-direction: column;
+}
+
+#note_selector {
+    width: 5vw;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
 }
 
 .tuning_metre {
@@ -36,7 +76,7 @@ body {
 }
 
 .orange {
-    background-color: orangered;
+    background-color: rgb(249, 89, 3);
 }
 
 .green {
@@ -49,4 +89,27 @@ body {
     height: 50px;
     background-color: black;
     left: 0;
+    transition: left 0.5s ease;
+}
+
+#note {
+    margin-top: 50px;
+}
+
+.settings_menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: center;
+    margin: 0 auto; 
+    min-height: 100vh;
+    width: 40vw;
+    padding: 5vh 2vw;
+    border-left: #263238 8px solid;
+    border-right: #263238 8px solid;
+    box-sizing: border-box;
+}
+
+.content {
+    text-align: left;
 }

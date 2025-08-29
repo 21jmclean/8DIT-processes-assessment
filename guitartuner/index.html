@@ -7,9 +7,23 @@
     <title>Guitar Tuner</title>
 </head>
 <body>
+    <ul>
+        <li><a href="index.html">Tune</a></li>
+        <li><a href="settings.html">Settings</a></li>
+    </ul>
+
     <div class="container">
-        <h1 class="item">Guitar Tuner</h1>
-        <p class="item" id="note"></p>
+        <h1>Guitar Tuner</h1>
+        <select name="note_selector" id="note_selector" hidden>
+            <option value="82">E</option>
+            <option value="82">A</option>
+            <option value="82">D</option>
+            <option value="82">G</option>
+            <option value="82">B</option>
+            <option value="82">E2</option>
+        </select>
+        <p id="note"></p>
+        <p id="accuracy"></p>
         <div class="tuning_metre">
             <div class="bar red"></div>
             <div class="bar orange"></div>
