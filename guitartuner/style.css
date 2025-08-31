@@ -96,6 +96,13 @@ li a:hover {
     margin-top: 50px;
 }
 
+#note_selector {
+    margin-top: 2vh;
+    width: 10vw;
+    height: 5vh;
+    border-radius: 10px;
+}
+
 .settings_menu {
     display: flex;
     flex-direction: column;
@@ -110,6 +117,14 @@ li a:hover {
     box-sizing: border-box;
 }
 
+
 .content {
     text-align: left;
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+}
+
+.setting {
+    margin: 1vw;
 }

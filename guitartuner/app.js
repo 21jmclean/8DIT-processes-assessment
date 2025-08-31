@@ -1,19 +1,23 @@
 import { PitchDetector } from "https://esm.sh/pitchy@4?";
-var note = "?";
+var note = "";
 var accuracy = 0;
 
 const container = document.querySelector(".tuning_metre")
 const indicator = document.querySelector("#indicator")
-const dropdown = document.getElementById("auto_or_manual");
+const tuning_mode_dropdown = document.getElementById("auto_or_manual");
 const note_selector = document.getElementById("note_selector")
+const tuning_type_dropdown = document.getElementById("tuning_type")
 
+// Freuqncey constants for each string (measured in Hz)
+const LOW_E_FREQUENCEY = 82;
+const A_FREQUENCEY = 110;
+const D_FREQUENCEY = 147;
+const G_FREQUENCEY = 196;
+const B_FREQUENCEY = 247;
+const HIGH_E_FREQUENCEY = 330;
 
-let low_e_frequencey = 82;
-let a_frequencey = 110;
-let d_frequencey = 147;
-let g_frequencey = 196;
-let b_frequencey = 247;
-let high_e_frequencey = 330;
+const LOW_DROP_D_FREQUENCEY = 73
+const HIGH_DROP_D_FREQUENCEY = 294
 
 function moveIndicator(barIndex) {
     let barWidth = container.offsetWidth / 5
@@ -26,23 +30,36 @@ function moveIndicator(barIndex) {
     indicator.style.left = `${leftPosition}px`;
 };
 
-function dropdownSelect() {
-    if (!dropdown) return;
-    let saved = sessionStorage.getItem("selectedValue");
-
+function tuningModeSelect() {
+    if (!tuning_mode_dropdown) return;
+    let saved = sessionStorage.getItem("selectedMode");
     if (saved !== null) {
-        dropdown.value = saved == "0" ? "0" : "1";
+        tuning_mode_dropdown.value = saved == "0" ? "0" : "1";
     }
 
-    dropdown.addEventListener("change", () => {
-        if (dropdown.value == 0) {
-            sessionStorage.setItem("selectedValue", 0)
+    tuning_mode_dropdown.addEventListener("change", () => {
+        if (tuning_mode_dropdown.value == 0) {
+            sessionStorage.setItem("selectedMode", 0)
         } else {
-            sessionStorage.setItem("selectedValue", 1)
+            sessionStorage.setItem("selectedMode", 1)
         }
-
     });
 };
+
+function tuningTypeSelect() {
+    if (!tuning_type_dropdown) return;
+    let saved_type = sessionStorage.getItem("selectedType")
+
+    if (saved_type !== null) {
+        tuning_type_dropdown.value = saved_type
+    }
+
+    tuning_type_dropdown.addEventListener("change", () => {
+        sessionStorage.setItem("selectedType", tuning_type_dropdown.value)
+    })
+}
+
+
 
 // This function is used for turning on the pitch detection. It uses the pitchy library
 async function startPitchDetection() {
@@ -51,7 +68,7 @@ async function startPitchDetection() {
     const source = audio.createMediaStreamSource(stream);
     const analyser = audio.createAnalyser();
 
-    analyser.fftSize = 4096;
+    analyser.fftSize = 16384;
     const bufferSize = analyser.fftSize;
     const buffer = new Float32Array(bufferSize);
 
@@ -66,67 +83,92 @@ async function startPitchDetection() {
         analyser.getFloatTimeDomainData(buffer)
         let [pitch, clarity] = detector.findPitch(buffer, audio.sampleRate);
 
-        dropdownSelect();
-        let selected_value = sessionStorage.getItem("selectedValue")
-        if (selected_value == 1) {
+        tuningModeSelect();
+        let selected_mode = sessionStorage.getItem("selectedMode")
+        if (selected_mode == 1) {
             document.getElementById("note_selector").hidden = false
-            if (clarity > 0.6 && pitch > 0) {
+            if (clarity > 0.8 && pitch > 0 && pitch < 600) {
+
                 if (note_selector.value == "E") {
-                    accuracy = pitch - low_e_frequencey
+                    accuracy = pitch - LOW_E_FREQUENCEY
                 }
 
                 if (note_selector.value == "A") {
-                    accuracy = pitch - a_frequencey
+                    accuracy = pitch - A_FREQUENCEY
                 }
 
                 if (note_selector.value == "D") {
-                    accuracy = pitch - d_frequencey
+                    accuracy = pitch - D_FREQUENCEY
                 }
 
                 if (note_selector.value == "G") {
-                    accuracy = pitch - g_frequencey
+                    accuracy = pitch - G_FREQUENCEY
                 }
 
                 if (note_selector.value == "B") {
-                    accuracy = pitch - b_frequencey
+                    accuracy = pitch - B_FREQUENCEY
                 }
 
                 if (note_selector.value == "E2") {
-                    accuracy = pitch - high_e_frequencey
+                    accuracy = pitch - HIGH_E_FREQUENCEY
+                }
+
+                if (note_selector.value == "low_drop_d") {
+                    if (pitch - LOW_DROP_D_FREQUENCEY < 50 && pitch - LOW_DROP_D_FREQUENCEY > -50) {
+                        accuracy = pitch - LOW_DROP_D_FREQUENCEY
+                    }
+                }
+
+                if (note_selector.value == "high_drop_d") {
+                    accuracy = pitch - HIGH_DROP_D_FREQUENCEY
                 }
             }
-
         } else {
-            if (clarity > 0.6 && pitch > 0) {
-                if (pitch > 78 && pitch < 86) {
-                    note = "E"
-                    accuracy = pitch - low_e_frequencey
-                    // The accuracy variable indicates how close to the target note the detected pitch is. The closer to 0, then the better tuned.
-                };
+            tuningTypeSelect();
+            let selected_type = sessionStorage.getItem("selectedType")
+            if (clarity > 0.65 && pitch > 0) {
+                if (selected_type == "standard") {
+                    if (pitch > 78 && pitch < 86) {
+                        note = "E"
+                        accuracy = pitch - LOW_E_FREQUENCEY
+                        // The accuracy variable indicates how close to the target note the detected pitch is. The closer to 0,  the more accurately tuned.
+                    };
+                    if (pitch > 326 && pitch < 334) {
+                        note = "E"
+                        accuracy = pitch - HIGH_E_FREQUENCEY
+                    };
+                } else if (selected_type == "drop_d" || selected_type == "double_drop_d") {
+                    if (selected_type == "drop_d") {
+                        if (pitch > 69 && pitch < 77) {
+                            note = "Drop D"
+                            accuracy = pitch - LOW_DROP_D_FREQUENCEY
+                        };
+                    } else {
+                        if (pitch > 290 && pitch < 298) {
+                            note = "High Drop D"
+                            accuracy = pitch - HIGH_DROP_D_FREQUENCEY
+                        };
+                    }
+                }
 
                 if (pitch > 106 && pitch < 114) {
                     note = "A"
-                    accuracy = pitch - a_frequencey
+                    accuracy = pitch - A_FREQUENCEY
                 };
 
                 if (pitch > 143 && pitch < 151) {
                     note = "D"
-                    accuracy = pitch - d_frequencey
+                    accuracy = pitch - D_FREQUENCEY
                 };
 
                 if (pitch > 192 && pitch < 200) {
                     note = "G"
-                    accuracy = pitch - g_frequencey
+                    accuracy = pitch - G_FREQUENCEY
                 };
 
                 if (pitch > 243 && pitch < 251) {
                     note = "B"
-                    accuracy = pitch - b_frequencey
-                };
-
-                if (pitch > 326 && pitch < 334) {
-                    note = "E"
-                    accuracy = pitch - high_e_frequencey
+                    accuracy = pitch - B_FREQUENCEY
                 };
             }
         }
@@ -134,31 +176,31 @@ async function startPitchDetection() {
         document.getElementById("note").textContent = note;
         document.getElementById("accuracy").textContent = accuracy;
 
-        if (accuracy <= 1 && accuracy >= 0.5) {
+        if (accuracy <= 2 && accuracy >= 1) {
             moveIndicator(4)
         };
 
-        if (accuracy < 0.5 && accuracy > 0.2) {
+        if (accuracy < 1 && accuracy > 0.5) {
             moveIndicator(3)
         };
 
-        if (accuracy <= 0.2 && accuracy >= -0.2) {
+        if (accuracy <= 0.5 && accuracy >= -0.5) {
             moveIndicator(2)
         };
 
-        if (accuracy < -0.2 && accuracy > -0.5) {
+        if (accuracy < -0.5 && accuracy > -1) {
             moveIndicator(1)
         };
 
-        if (accuracy <= -0.5 && accuracy >= -1) {
+        if (accuracy <= -1 && accuracy >= -2) {
             moveIndicator(0)
         };
 
-        if (accuracy > 1) {
+        if (accuracy > 2) {
             moveIndicator(4)
         };
 
-        if (accuracy < -1) {
+        if (accuracy < -2) {
             moveIndicator(0)
         };
 
@@ -167,7 +209,7 @@ async function startPitchDetection() {
             last_update = Date.now()
         }
     }
-    detectPitch();
+    setTimeout(detectPitch(), 100);
 }
 
 
