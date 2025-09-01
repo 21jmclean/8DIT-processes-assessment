@@ -126,6 +126,14 @@ async function startPitchDetection() {
         } else {
             tuningTypeSelect();
             let selected_type = sessionStorage.getItem("selectedType")
+            if (selected_type == "double_drop_d") {
+                document.getElementById("selected_tuning_type").textContent = "Double Drop D"
+            } else if (selected_type == "drop_d") {
+                document.getElementById("selected_tuning_type").textContent = "Drop D"
+            } else {
+                document.getElementById("selected_tuning_type").textContent = "Standard"
+            }
+
             if (clarity > 0.65 && pitch > 0) {
                 if (selected_type == "standard") {
                     if (pitch > 78 && pitch < 86) {

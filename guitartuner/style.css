@@ -25,6 +25,7 @@ ul {
 li a {
     display: block;
     padding: 10px 15px;
+    font-size: 20px;
     text-decoration: none;
     color: #CFD8DC;
     background-color: #263238;
@@ -71,8 +72,14 @@ li a:hover {
     margin-right: auto;
 }
 
-.red {
+.red#left {
     background-color: red;
+    border-bottom-left-radius: 8px;
+}
+
+.red#right {
+    background-color: red;
+    border-bottom-right-radius: 8px;
 }
 
 .orange {
@@ -85,15 +92,24 @@ li a:hover {
 
 #indicator {
     position: absolute;
-    width: 3px;
+    width: 5px;
     height: 50px;
     background-color: black;
     left: 0;
     transition: left 0.5s ease;
 }
 
+h3 {
+    margin-top: 2vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
 #note {
-    margin-top: 50px;
+    font-size: 50px;
+    margin: 1vw;
+    font-weight: bold;
 }
 
 #note_selector {
@@ -110,11 +126,12 @@ li a:hover {
     text-align: center;
     margin: 0 auto; 
     min-height: 100vh;
-    width: 40vw;
+    width: 60vw;
     padding: 5vh 2vw;
     border-left: #263238 8px solid;
     border-right: #263238 8px solid;
     box-sizing: border-box;
+    background-color: #d9dee0;
 }
 
 
@@ -126,5 +143,13 @@ li a:hover {
 }
 
 .setting {
-    margin: 1vw;
+    font-size: 25px;
+    margin: 2vw;
+}
+
+select {
+    height: 30px;
+    font-size: 20px;
+    width: 8vw;
+    border-radius: 10px;
 }

@@ -14,6 +14,7 @@
 
     <div class="container">
         <h1>Guitar Tuner</h1>
+        <p id="selected_tuning_type"></p>
         <select name="note_selector" id="note_selector" hidden>
             <option value="E">E</option>
             <option value="A">A</option>
@@ -27,15 +28,17 @@
         <p id="note"></p>
         <p id="accuracy"></p>
         <div class="tuning_metre">
-            <div class="bar red"></div>
+            <div class="bar red" id="left"></div>
             <div class="bar orange"></div>
             <div class="bar green"></div>
             <div class="bar orange"></div>
-            <div class="bar red"></div>
+            <div class="bar red right" id="right"></div>
             <div id="indicator"></div>
         </div>
     </div>
     </div>
+    <h3>Play a note to get started</h3>
+    <h3>Change tuning mode on the settings page</h3>
     <script type="module" src="app.js"></script>
 </body>
 </html>
