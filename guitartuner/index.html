@@ -7,10 +7,38 @@
     <title>Guitar Tuner</title>
 </head>
 <body>
+    <ul>
+        <li><a href="index.html">Tune</a></li>
+        <li><a href="settings.html">Settings</a></li>
+    </ul>
+
     <div class="container">
-        <h1 class="item">Guitar Tuner</h1>
-        <p class="item" id="note"></p>
+        <h1>Guitar Tuner</h1>
+        <p id="selected_tuning_type"></p>
+        <select name="note_selector" id="note_selector" hidden>
+            <option value="E">E</option>
+            <option value="A">A</option>
+            <option value="D">D</option>
+            <option value="G">G</option>
+            <option value="B">B</option>
+            <option value="E2">E2</option>
+            <option value="low_drop_d">Low Drop D</option>
+            <option value="high_drop_d">High Drop D</option>
+        </select>
+        <p id="note"></p>
+        <p id="accuracy"></p>
+        <div class="tuning_metre">
+            <div class="bar red" id="left"></div>
+            <div class="bar orange"></div>
+            <div class="bar green"></div>
+            <div class="bar orange"></div>
+            <div class="bar red right" id="right"></div>
+            <div id="indicator"></div>
+        </div>
     </div>
+    </div>
+    <h3>Play a note to get started</h3>
+    <h3>Change tuning mode on the settings page</h3>
     <script type="module" src="app.js"></script>
 </body>
 </html>
